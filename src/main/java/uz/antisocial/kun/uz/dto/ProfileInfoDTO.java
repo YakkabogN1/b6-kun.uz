@@ -1,6 +1,5 @@
 package uz.antisocial.kun.uz.dto;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import uz.antisocial.kun.uz.entity.PhotoEntity;

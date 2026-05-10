@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.net.URL;
-
 @Entity
 @Setter
 @Getter
