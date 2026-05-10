@@ -1,0 +1,2 @@
+### Get by id
+GET localhost:8080/profile/helloWorld
