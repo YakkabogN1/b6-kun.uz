@@ -1,2 +1,56 @@
 ### Get by id
 GET localhost:8080/profile/helloWorld
+
+
+### Create profile
+
+POST localhost:8080/profile/save
+Content-Type: application/json
+
+
+{
+  "name":"Aziztest",
+  "surname":"Faxriddinovtest",
+  "password": "Azizchiktest",
+  "username": "@zizt"
+}
+
+### Update profile
+
+PUT localhost:8080/profile/update
+Content-Type: application/json
+
+{
+   "name": "Aziz",
+   "surname": "Faxriddinov"
+
+}
+
+### Delete Profile
+
+DELETE localhost:8080/profile/delete/id/{asdasda}
+
+### Update Photot of any
+
+PUT localhost:8080/profile/updatePhoto/id/{sdad}
+Content-Type: application/json
+
+{
+
+"url": "something"
+
+}
+### update password any
+
+PUT localhost:8080/profile/updatePassword/any/prfId/{prfId}
+Content-Type: application/json
+
+{
+  "newPassword": "aaa",
+  "oldPassword": "bbb"
+
+}
+
+
+
+

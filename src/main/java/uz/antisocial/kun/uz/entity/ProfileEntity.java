@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import uz.antisocial.kun.uz.enums.ProfileRole;
-
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -30,6 +30,40 @@ public class ProfileEntity extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<ProfileRole> roleList;
+    private Set<ProfileRole> roleList = new HashSet<>();
 
+    public ProfileEntity(String name, String surname, String username, String password, Set<ProfileRole> roleList) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.roleList = roleList;
+    }
+
+    public ProfileEntity() {
+        super();
+        roleList.add(ProfileRole.ROLE_USER);
+    }
+
+    public ProfileEntity(String name, String surname, String username, String password) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.roleList.add(ProfileRole.ROLE_USER);
+        this.status=Boolean.TRUE;
+    }
+
+    public ProfileEntity(String name, String surname, String username, String password, Boolean status, PhotoEntity photo, Set<ProfileRole> roleList) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        this.photo = photo;
+        this.roleList = roleList;
+    }
 }

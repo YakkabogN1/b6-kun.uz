@@ -5,6 +5,8 @@ import lombok.Setter;
 import uz.antisocial.kun.uz.entity.PhotoEntity;
 import uz.antisocial.kun.uz.enums.ProfileRole;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -18,7 +20,7 @@ public class ProfileInfoDTO {
     private Boolean status;
     private PhotoEntity photo;
     private Set<ProfileRole> roleList;
-
+    private LocalDateTime createdDate;
     public ProfileInfoDTO(Long id,String name, String surname, String username) {
         this.id = id;
         this.name = name;
@@ -35,15 +37,25 @@ public class ProfileInfoDTO {
         this.roleList = roleList;
     }
 
-    public ProfileInfoDTO(Long id, String name, String surname, String username, String password, Boolean status, PhotoEntity photo, Set<ProfileRole> roleList) {
+    public ProfileInfoDTO(Long id, String name, String surname, String username, Set<ProfileRole> roleList, LocalDateTime createdDate, Boolean status, PhotoEntity photo) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
-        this.password = password;
         this.status = status;
         this.photo = photo;
         this.roleList = roleList;
+        this.createdDate=createdDate;
     }
 
+    public ProfileInfoDTO(Long id, String name, String surname, String username, Set<ProfileRole> roles,LocalDateTime createdDate){
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.roleList = roles;
+        this.createdDate=createdDate;
+    }
+    public ProfileInfoDTO() {
+    }
 }
