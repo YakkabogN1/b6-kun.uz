@@ -20,6 +20,7 @@ public class BaseEntity {
 
     @CreationTimestamp
     private LocalDateTime createdDate;
+
     private LocalDateTime updatedDate;
 
 }

@@ -17,12 +17,13 @@ Content-Type: application/json
 
 ### Update profile
 
-PUT localhost:8080/profile/update
+PUT localhost:8080/profile/update/id/6
 Content-Type: application/json
 
 {
-   "name": "Aziz",
-   "surname": "Faxriddinov"
+   "name": "Sharof",
+   "surname": "Maxamadjonov",
+  "password": "helloTashkent"
 
 }
 
@@ -51,6 +52,9 @@ Content-Type: application/json
 
 }
 
+### gat All Students
+
+GET localhost:8080/profile/getAllUsers
 
 
 
