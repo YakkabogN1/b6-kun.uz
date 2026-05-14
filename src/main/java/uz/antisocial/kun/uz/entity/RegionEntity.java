@@ -36,7 +36,7 @@ public class RegionEntity extends BaseEntity{
         this.orderNumber=orderNumber;
     }
 
-    public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn, String name) {
+    public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn) {
         this.orderNumber = orderNumber;
         this.key = key;
         this.nameUz = nameUz;

@@ -9,6 +9,7 @@ import uz.antisocial.kun.uz.entity.ProfileEntity;
 import uz.antisocial.kun.uz.entity.RegionEntity;
 import uz.antisocial.kun.uz.repository.RegionRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,11 @@ public class RegionService {
     }
 
     public RegionDTO save(RegionDTO region){
-        RegionEntity regionEntity =new RegionEntity(region.getKey(),region.getOrderNumber(),region.getNameEn(),region.getNameRu(),region.getNameUz(),region.getName());
+        RegionEntity regionEntity =new RegionEntity(region.getKey(),region.getOrderNumber(),region.getNameEn(),region.getNameRu(),region.getNameUz());
         regionRepository.save(regionEntity);
 
         region.setId(regionEntity.getId());
+        region.setCreatedDate(LocalDateTime.now());
         return region;
     }
 
