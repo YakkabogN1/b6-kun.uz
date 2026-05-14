@@ -22,21 +22,37 @@ public class RegionEntity extends BaseEntity{
     private String nameEn;
     @Column(name="name")
     private String name;
+    @Column(name = "status")
+    private Boolean status;
 
     public RegionEntity(Long orderNumber, String key) {
+        this.status=Boolean.TRUE;
         this.orderNumber = orderNumber;
         this.key = key;
     }
 
     public RegionEntity() {
+        this.status=Boolean.TRUE;
     }
 
     public RegionEntity(String key, Long orderNumber) {
         this.key=key;
         this.orderNumber=orderNumber;
+        this.status=Boolean.TRUE;
     }
 
     public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn) {
+        this.status=Boolean.TRUE;
+        this.orderNumber = orderNumber;
+        this.key = key;
+        this.nameUz = nameUz;
+        this.nameRu = nameRu;
+        this.nameEn = nameEn;
+
+    }
+
+    public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn,String name) {
+        this.status=Boolean.TRUE;
         this.orderNumber = orderNumber;
         this.key = key;
         this.nameUz = nameUz;
