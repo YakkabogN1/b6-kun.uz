@@ -1,17 +1,16 @@
 package uz.antisocial.kun.uz.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import uz.antisocial.kun.uz.dto.ProfileInfoDTO;
+import uz.antisocial.kun.uz.dto.RegionDTO;
 import uz.antisocial.kun.uz.entity.PhotoEntity;
 import uz.antisocial.kun.uz.entity.ProfileEntity;
-import uz.antisocial.kun.uz.enums.ProfileRole;
 import uz.antisocial.kun.uz.repository.ProfileRepository;
 
-import javax.management.relation.Role;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProfileService {
@@ -26,6 +25,7 @@ public class ProfileService {
 
 
     public Boolean changePasswordAny(Long prfId,String oldPassword,String newPassword){
+
         ProfileEntity entity =
                 profileRepository.findById(prfId)
                         .orElseThrow(() ->

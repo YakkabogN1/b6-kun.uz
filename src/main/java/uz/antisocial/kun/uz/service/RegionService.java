@@ -38,6 +38,18 @@ public class RegionService {
         return region;
     }
 
+    public RegionDTO updateById(Long id,RegionDTO regionDTO){
+        RegionEntity original =
+                regionRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException("Profile not found"));
+
+        return null;
+
+
+
+    }
+
 
 
 

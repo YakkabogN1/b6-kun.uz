@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import uz.antisocial.kun.uz.enums.ProfileRole;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -30,9 +32,9 @@ public class ProfileEntity extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<ProfileRole> roleList = new HashSet<>();
+    private List<ProfileRole> roleList = new LinkedList<>();
 
-    public ProfileEntity(String name, String surname, String username, String password, Set<ProfileRole> roleList) {
+    public ProfileEntity(String name, String surname, String username, String password, List<ProfileRole> roleList) {
         super();
         this.name = name;
         this.surname = surname;
@@ -56,7 +58,7 @@ public class ProfileEntity extends BaseEntity {
         this.status=Boolean.TRUE;
     }
 
-    public ProfileEntity(String name, String surname, String username, String password, Boolean status, PhotoEntity photo, Set<ProfileRole> roleList) {
+    public ProfileEntity(String name, String surname, String username, String password, Boolean status, PhotoEntity photo, List<ProfileRole> roleList) {
         super();
         this.name = name;
         this.surname = surname;
