@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import uz.antisocial.kun.uz.dto.JwtDTO;
-import uz.antisocial.kun.uz.enums.ProfileRole;
+import uz.antisocial.kun.uz.enums.ProfileRoleEnum;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -18,20 +18,19 @@ public class JwtUtil {
     private static final int tokenLiveTime = 1000 * 3600 * 24; // 1-day
     private static final String secretKey = "veryLongSecretmazgillattayevlasharaaxmojonjinnijonsurbetbekkiydirhonuxlatdibekloxovdangasabekochkozjonduxovmashaynikmaydagapchishularnioqiganbolsangizgapyoqaniqsizmazgi";
 
-    public static String encode(String username, List<ProfileRole> role) {
+    /**
+     * General
+     */
+    public static String encode(String username, List<ProfileRoleEnum> roles) { // [ROLE_ADMIN,ROLE_USER]
         Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("username", username);
+        extraClaims.put("role", roles);
 
-        extraClaims.put(
-                "role",
-                role.stream()
-                        .map(ProfileRole::name)
-                        .toList()
-        );
-
-        return Jwts.builder()
+        return Jwts
+                .builder()
                 .claims(extraClaims)
                 .subject(username)
-                .issuedAt(new Date())
+                .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + tokenLiveTime))
                 .signWith(getSignInKey())
                 .compact();
@@ -45,13 +44,43 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
         String username = claims.getSubject();
-        List<String> roles = (List<String>) claims.get("role");
+        List<ProfileRoleEnum> roles = (List<ProfileRoleEnum>) claims.get("role");
+        JwtDTO jwtDTO = new JwtDTO();
+        jwtDTO.setUsername(username);
+        jwtDTO.setRoles(roles);
+        return jwtDTO;
+    }
 
-        List<ProfileRole> profileRoles = roles.stream()
-                .map(ProfileRole::valueOf)
-                .toList();
+    /**
+     * Registration
+     */
+    public static String encodeForRegistration(String username, Integer code) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("code", code);
 
-        return new JwtDTO(username, profileRoles);
+        return Jwts
+                .builder()
+                .claims(extraClaims)
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + tokenLiveTime))
+                .signWith(getSignInKey())
+                .compact();
+    }
+
+    public static JwtDTO decodeRegistrationToken(String token) {
+        Claims claims = Jwts
+                .parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        String username = claims.getSubject();
+        Integer code = (Integer) claims.get("code");
+        JwtDTO jwtDTO = new JwtDTO();
+        jwtDTO.setUsername(username);
+        jwtDTO.setCode(code);
+        return jwtDTO;
     }
 
     private static SecretKey getSignInKey() {

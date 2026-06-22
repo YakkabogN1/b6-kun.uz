@@ -1,70 +1,75 @@
 package uz.antisocial.kun.uz.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.antisocial.kun.uz.dto.ProfileInfoDTO;
-import uz.antisocial.kun.uz.dto.TwoStringDto;
-import uz.antisocial.kun.uz.entity.PhotoEntity;
+import uz.antisocial.kun.uz.dto.profile.*;
 import uz.antisocial.kun.uz.service.ProfileService;
+import uz.antisocial.kun.uz.util.PageUtil;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/api/v1/profile")
 public class ProfileController {
+
     @Autowired
     private ProfileService profileService;
 
-
-    @GetMapping("/helloWorld")
-    public String getAll() {
-        return profileService.helloWorld();
+    @PostMapping("")
+    public ResponseEntity<ProfileDTO> create(@Valid @RequestBody ProfileDTO dto) {
+        return ResponseEntity.ok(profileService.create(dto));
     }
 
-    @GetMapping("/getAllUsers")
-    public List<ProfileInfoDTO> getAllUser(){
-        return profileService.getAllUser();
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfileDTO> update(@PathVariable("id") Integer id,
+                                             @Valid @RequestBody ProfileUpdateDTO dto) { // ADMIN
+        return ResponseEntity.ok(profileService.update(id, dto));
     }
 
-    @PostMapping("createRole")
-    public ProfileInfoDTO create(@RequestBody ProfileInfoDTO student){
-
-        return profileService.createRole(student);
-    }
-    @GetMapping("/getById/{id}")
-    public ProfileInfoDTO  getProfileById(@PathVariable Long id){
-        return profileService.getProfileById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfileDTO> byId(@PathVariable("id") Integer id) { // ADMIN
+        return ResponseEntity.ok(profileService.getById(id));
     }
 
-    @PostMapping("/save")
-    public ProfileInfoDTO save(@RequestBody ProfileInfoDTO profileInfoDTO){
-        return profileService.createProfile(profileInfoDTO);
-
+    @PutMapping("/detail")
+    public ResponseEntity<ProfileDTO> updateDetail(
+            @RequestHeader("ProfileId") Integer currentProfileId,
+            @Valid @RequestBody ProfileUpdateDetailDTO dto) { // ANY
+        return ResponseEntity.ok(profileService.updateDetail(currentProfileId, dto));
     }
 
-    @PutMapping("/update/id/{id}")
-    public ProfileInfoDTO update(@RequestBody ProfileInfoDTO prf,@PathVariable Long id){
-        return profileService.update(id,prf);
-
+    @GetMapping("/pagination")
+    public ResponseEntity<PageImpl<ProfileDTO>> pagination(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        return ResponseEntity.ok(profileService.pagination(PageUtil.page(page), size));
     }
 
-    @DeleteMapping("/delete/id/{id}")
-    public Boolean deleteById(@PathVariable Long id){
-        return profileService.deleteProfileById(id);
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(profileService.delete(id));
     }
 
-    @PutMapping("/updatePhoto/prfId/{id}")
-    public Boolean updatePhotoAny(@PathVariable Long id, @RequestBody PhotoEntity p){
-    return profileService.updatePhoto(id,p);
-
+    @PutMapping("/password")
+    public ResponseEntity<Boolean> password(@RequestHeader("ProfileId") Integer currentProfileId,
+                                            @Valid @RequestBody ProfileUpdatePasswordDTO dto) {
+        return ResponseEntity.ok(profileService.updatePassword(currentProfileId, dto));
     }
 
-    @PutMapping("/updatePassword/any/prfId/{prfId}")
-    public Boolean changePasswordAny(@PathVariable Long prfId, @RequestBody TwoStringDto strings){
-     return profileService.changePasswordAny(prfId,strings.getOldPassword(),strings.getNewPassword());
-
+    // Buni to'liq keyinroq qilamiz. Attach mavzusida
+    @PutMapping("/photo")
+    public ResponseEntity<Boolean> update(@RequestHeader("ProfileId") Integer currentProfileId,
+                                          @Valid @RequestBody ProfileUpdatePhotoDTO dto) {
+        return ResponseEntity.ok(profileService.updatePhoto(currentProfileId, dto));
     }
 
+    @PostMapping("/filter") // ADMIN
+    public ResponseEntity<Page<ProfileDTO>> filter(@RequestBody ProfileFilterDTO filter,
+                                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+        return ResponseEntity.ok(profileService.filter(filter, page - 1, size));
+    }
 }

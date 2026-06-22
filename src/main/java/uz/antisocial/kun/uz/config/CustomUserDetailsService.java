@@ -6,24 +6,34 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.antisocial.kun.uz.entity.ProfileEntity;
+import uz.antisocial.kun.uz.enums.ProfileRoleEnum;
+import uz.antisocial.kun.uz.exceptions.AppBadException;
 import uz.antisocial.kun.uz.repository.ProfileRepository;
+import uz.antisocial.kun.uz.repository.ProfileRoleRepository;
 
+import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileRoleRepository profileRoleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // username
-        System.out.println(" loadUserByUsername : " + username);
-        Optional<ProfileEntity> optional = profileRepository.findByUsername(username);
+        Optional<ProfileEntity> optional = profileRepository.findByUsernameAndVisibleIsTrue(username);
         if (optional.isEmpty()) {
-            throw new UsernameNotFoundException(username);
+            throw new AppBadException("User name not found");
         }
         ProfileEntity profile = optional.get();
-        return new CustomUserDetails(profile.getId(), profile.getUsername(), profile.getPassword(),profile.getStatus(), profile.getRoleList());
+        List<ProfileRoleEnum> roleList = profileRoleRepository.getRoleListByProfileId(profile.getId());
+        return new CustomUserDetails(profile.getId(),
+                profile.getUsername(),
+                profile.getPassword(),
+                profile.getStatus(),
+                roleList);
     }
 }

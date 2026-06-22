@@ -1,63 +1,42 @@
 package uz.antisocial.kun.uz.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Entity
-@Setter
+import java.time.LocalDateTime;
+
 @Getter
-public class RegionEntity extends BaseEntity{
+@Setter
+@Entity
+@Table(name = "region")
+public class RegionEntity {
 
-    @Column(name="order_number")
-    private Long orderNumber;
-    @Column(name="key")
-    private String key;
-    @Column(name="nameUz")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "order_number")
+    private Integer orderNumber;
+
+    @Column(name = "name_uz")
     private String nameUz;
-    @Column(name="nameRu")
+
+    @Column(name = "name_ru")
     private String nameRu;
-    @Column(name="nameEn")
+
+    @Column(name = "name_en")
     private String nameEn;
-    @Column(name="name")
-    private String name;
-    @Column(name = "status")
-    private Boolean status;
 
-    public RegionEntity(Long orderNumber, String key) {
-        this.status=Boolean.TRUE;
-        this.orderNumber = orderNumber;
-        this.key = key;
-    }
+    @Column(name = "region_key")
+    private String regionKey;
 
-    public RegionEntity() {
-        this.status=Boolean.TRUE;
-    }
+    @Column(name = "visible")
+    private Boolean visible = true;
 
-    public RegionEntity(String key, Long orderNumber) {
-        this.key=key;
-        this.orderNumber=orderNumber;
-        this.status=Boolean.TRUE;
-    }
+    @Column(name = "created_date")
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
-    public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn) {
-        this.status=Boolean.TRUE;
-        this.orderNumber = orderNumber;
-        this.key = key;
-        this.nameUz = nameUz;
-        this.nameRu = nameRu;
-        this.nameEn = nameEn;
-
-    }
-
-    public RegionEntity(String key,Long orderNumber,  String nameUz, String nameRu, String nameEn,String name) {
-        this.status=Boolean.TRUE;
-        this.orderNumber = orderNumber;
-        this.key = key;
-        this.nameUz = nameUz;
-        this.nameRu = nameRu;
-        this.nameEn = nameEn;
-        this.name = name;
-    }
 }

@@ -1,43 +1,35 @@
 package uz.antisocial.kun.uz.dto;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Setter
+
 @Getter
+@Setter
 public class RegionDTO {
+    private Integer id;
 
-    private Long id;
-    private Long orderNumber;
-    private String key;
+    @NotNull(message = "OrderNumber required")
+    @Min(value = 1, message = "OrderNumber have to higher than 0")
+    private Integer orderNumber;
+
+    @NotBlank(message = "NameUz required")
     private String nameUz;
+
+    @NotBlank(message = "NameRu required")
     private String nameRu;
+
+    @NotBlank(message = "NameEn required")
     private String nameEn;
-    private String name;
+
+    @NotBlank(message = "RegionKey required")
+    private String regionKey;
+
     private LocalDateTime createdDate;
-
-    public RegionDTO(Long id, String key, Long orderNumber,LocalDateTime createdDate) {
-        this.id=id;
-        this.key=key;
-        this.orderNumber=orderNumber;
-        this.createdDate=createdDate;
-
-    }
-
-    public RegionDTO(Long id, Long orderNumber, String key, String nameUz, String nameRu, String nameEn, String name, LocalDateTime createdDate) {
-        this.id = id;
-        this.orderNumber = orderNumber;
-        this.key = key;
-        this.nameUz = nameUz;
-        this.nameRu = nameRu;
-        this.nameEn = nameEn;
-        this.name = name;
-        this.createdDate = createdDate;
-    }
-
-    public RegionDTO() {
-    }
+    private String name;
 }

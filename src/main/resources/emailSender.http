@@ -1,9 +1,0 @@
-### Send simple mail
-POST localhost:8080/mail-send/simple
-Content-Type: application/json
-
-{
-  "toAccount": "mirfayzirahmon2006@gmail.com",
-  "subject": "Salom xat",
-  "text": "Yoo, another chance — a brand new day"
-}

@@ -3,69 +3,49 @@ package uz.antisocial.kun.uz.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import uz.antisocial.kun.uz.enums.ProfileRole;
-import java.util.HashSet;
+import org.hibernate.annotations.CreationTimestamp;
+import uz.antisocial.kun.uz.enums.ProfileRoleEnum;
+import uz.antisocial.kun.uz.enums.ProfileStatus;
+
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
-@Setter
 @Getter
+@Setter
 @Entity
-public class ProfileEntity extends BaseEntity {
+@Table(name = "profile")
+public class ProfileEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "surname")
+
+    @Column(name = "surname", nullable = false)
     private String surname;
-    @Column(name="username")
-    private String username;
-    @Column(name= "password")
+
+    @Column(name = "username", nullable = false)
+    private String username;// 1213
+
+    @Column(name = "password", nullable = false)
     private String password;
+
     @Column(name = "status")
-    private Boolean status=Boolean.TRUE;
-
-    @OneToOne
-    @JoinColumn(name = "photo_id")
-    private PhotoEntity photo;
-
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private List<ProfileRole> roleList = new LinkedList<>();
+    private ProfileStatus status;
 
-    public ProfileEntity(String name, String surname, String username, String password, List<ProfileRole> roleList) {
-        super();
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.password = password;
-        this.roleList = roleList;
-    }
+    @Column(name = "photo_id")
+    private String photoId; // Will do it later (in attach topic)
 
-    public ProfileEntity() {
-        super();
-        roleList.add(ProfileRole.ROLE_USER);
-    }
+    @Column(name = "visible", nullable = false)
+    private Boolean visible = true;
 
-    public ProfileEntity(String name, String surname, String username, String password) {
-        super();
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.password = password;
-        this.roleList.add(ProfileRole.ROLE_USER);
-        this.status=Boolean.TRUE;
-    }
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
 
-    public ProfileEntity(String name, String surname, String username, String password, Boolean status, PhotoEntity photo, List<ProfileRole> roleList) {
-        super();
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.password = password;
-        this.status = status;
-        this.photo = photo;
-        this.roleList = roleList;
-    }
+    @OneToMany(mappedBy = "profile")
+    private List<ProfileRoleEntity> roleList;
 }

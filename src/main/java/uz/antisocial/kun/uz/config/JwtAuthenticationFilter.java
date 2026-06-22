@@ -25,17 +25,19 @@ import java.util.Arrays;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         return Arrays
-                .stream(SpringConfig.AUTH_WHITELIST)
+                .stream(SpringSecurityConfig.openApiList)
                 .anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); // Continue the filter chain
@@ -45,7 +47,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String token = header.substring(7).trim();
             JwtDTO jwtDTO = JwtUtil.decode(token);
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtDTO.getUsername());
+
+            String username = jwtDTO.getUsername();
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

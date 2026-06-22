@@ -1,0 +1,37 @@
+### Create region
+POST localhost:8080/api/v1/region/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwidXNlcm5hbWUiOiJvcm1vbm92YXphbWF0OUBnbWFpbC5jb20iLCJzdWIiOiJvcm1vbm92YXphbWF0OUBnbWFpbC5jb20iLCJpYXQiOjE3ODE5NDEyNzgsImV4cCI6MTc4MjAyNzY3OH0.oC-H7W8S-iivTnjpI9v9Yanux6FSg8SouRKmR4E0tTTCV3NOzSUaArHn9cJLf_G2uO_BD8YgRoyMfNhDcoTOGw
+
+{
+  "orderNumber": 12,
+  "nameUz": "Xorazm 12",
+  "nameRu": "Хорезм 12",
+  "nameEn": "Khorezm 12",
+  "regionKey": "khorezm12"
+}
+### Update region
+PUT localhost:8080/api/v1/region/admin/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwidXNlcm5hbWUiOiJiaWdtYW5nY29tQGdtYWlsLmNvbSIsInN1YiI6ImJpZ21hbmdjb21AZ21haWwuY29tIiwiaWF0IjoxNzUwMzAyODkxLCJleHAiOjE3NTAzODkyOTF9.jiApspABtlGP2x8zYvQkRnqqvl16o2VOIv_p6-8-Z9eQb0R5DsN3sjpWTADpijxEK0FvTVhWFe7iRRV9N9CwAA
+
+{
+  "orderNumber": 1,
+  "nameUz": "Iqtisodiyot11",
+  "nameRu": "Экономика11",
+  "nameEn": "Economics11",
+  "categoryKey": "iqtisodiyot11"
+}
+
+
+### Delete category
+DELETE localhost:8080/api/v1/region/admin/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwidXNlcm5hbWUiOiJiaWdtYW5nY29tQGdtYWlsLmNvbSIsInN1YiI6ImJpZ21hbmdjb21AZ21haWwuY29tIiwiaWF0IjoxNzUwMzAyODkxLCJleHAiOjE3NTAzODkyOTF9.jiApspABtlGP2x8zYvQkRnqqvl16o2VOIv_p6-8-Z9eQb0R5DsN3sjpWTADpijxEK0FvTVhWFe7iRRV9N9CwAA
+
+### Get region list
+GET localhost:8080/api/v1/region/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwidXNlcm5hbWUiOiJvcm1vbm92YXphbWF0OUBnbWFpbC5jb20iLCJzdWIiOiJvcm1vbm92YXphbWF0OUBnbWFpbC5jb20iLCJpYXQiOjE3ODE5NDEyNzgsImV4cCI6MTc4MjAyNzY3OH0.oC-H7W8S-iivTnjpI9v9Yanux6FSg8SouRKmR4E0tTTCV3NOzSUaArHn9cJLf_G2uO_BD8YgRoyMfNhDcoTOGw
+
+### Get region by lang
+GET localhost:8080/api/v1/region/lang
+Accept-Language: EN
