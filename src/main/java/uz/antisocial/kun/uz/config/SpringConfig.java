@@ -1,8 +1,11 @@
 package uz.antisocial.kun.uz.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +35,7 @@ public class SpringConfig {
             "/test/info",
             "/student/registration",
             "/student/login",
+            "/mail-send/simple",
     };
 
     @Bean
@@ -84,6 +89,34 @@ public class SpringConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+
+    @Value("${spring.mail.host}")
+    private String host;
+    @Value("${spring.mail.username}")
+    private String fromAccount;
+    @Value("${spring.mail.password}")
+    private String password;
+
+    @Value("${spring.mail.port}")
+    private Integer port;
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+        mailSender.setUsername(fromAccount);
+        mailSender.setPassword(password);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp"); //  property-dan olib set qilsak bo'ladi
+        props.put("mail.smtp.auth", "true"); //  property-dan olib set qilsak bo'ladi
+        props.put("mail.smtp.starttls.enable", "true"); //  property-dan olib set qilsak bo'ladi
+        props.put("mail.debug", "true"); //  property-dan olib set qilsak bo'ladi
+        return mailSender;
     }
 
 }
